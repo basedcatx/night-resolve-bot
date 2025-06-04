@@ -1,5 +1,5 @@
 import { Client, EmbedBuilder } from 'discord.js';
-import { HELP_SETTINGS_DESCRIPTION } from '../../constants/help/help.constants';
+import { HELP_SETTINGS_DESCRIPTION } from '../../constants/help/help.md';
 import { SettingsManager } from '../../structures/settings/SettingsManager';
 
 export abstract class HelpSettingsEmbedClass {

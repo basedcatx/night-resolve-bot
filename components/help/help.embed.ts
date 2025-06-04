@@ -1,5 +1,5 @@
 import { Client, EmbedBuilder } from 'discord.js';
-import { HELP_EMBED_DESCRIPTION } from '../../constants/help/help.constants';
+import { HELP_EMBED_DESCRIPTION } from '../../constants/help/help.md';
 
 export abstract class HelpEmbedClass {
   public static embed = (client: Client) =>

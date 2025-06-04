@@ -42,86 +42,88 @@ export class SettingsManager {
   }
 
   set adminRoles(role: string[]) {
-    this.guildConfig.adminRoles = [...role];
+    this.guildConfig.initiators = [...role];
     this.updateDb().then((r) => r);
   }
 
   get adminRoles() {
-    return this.guildConfig.adminRoles;
+    return this.guildConfig.initiators;
     this.updateDb().then((r) => r);
   }
 
   set minimumPlayers(min: number) {
-    this.guildConfig.minimumPlayers = min;
+    this.guildConfig.min = min;
     this.updateDb().then((r) => r);
   }
 
   set maximumPlayers(max: number) {
-    this.guildConfig.maximumPlayers = max;
+    this.guildConfig.max = max;
     this.updateDb().then((r) => r);
   }
 
   get minimumPlayers() {
-    return this.guildConfig.minimumPlayers;
+    return this.guildConfig.min;
   }
 
   get maximumPlayers() {
-    return this.guildConfig.maximumPlayers;
+    return this.guildConfig.max;
   }
 
   set dayDuration(durationInMs: number) {
-    this.guildConfig.dayDuration = durationInMs;
+    this.guildConfig.day = durationInMs;
     this.updateDb().then((r) => r);
   }
 
   set nightDuration(durationInMs: number) {
-    this.guildConfig.nightDuration = durationInMs;
+    this.guildConfig.night = durationInMs;
     this.updateDb().then((r) => r);
   }
 
   get dayDurationInMs() {
-    return this.guildConfig.dayDuration;
+    return this.guildConfig.day;
   }
 
   get nightDurationInMs() {
-    return this.guildConfig.nightDuration;
+    return this.guildConfig.night;
   }
 
   set revealRolesImmediatelyOnDeath(value: boolean) {
-    this.guildConfig.revealRolesOnDeath = value;
+    this.guildConfig.reveal = value;
     this.updateDb().then((r) => r);
   }
 
   get revealRolesImmediatelyOnDeath() {
-    return this.guildConfig.revealRolesOnDeath;
+    return this.guildConfig.reveal;
   }
 
   set skipVoteAllowed(value: boolean) {
-    this.guildConfig.skipVoteAllowed = value;
+    this.guildConfig.skip = value;
     this.updateDb().then((r) => r);
   }
 
   get skipVoteAllowed() {
-    return this.guildConfig.skipVoteAllowed;
+    return this.guildConfig.skip;
   }
 
   set hardcoreMode(value: boolean) {
-    this.guildConfig.hardcoreMode = value;
+    this.guildConfig.hardcore = value;
     this.updateDb().then((r) => r);
   }
 
   get hardcoreMode() {
-    return this.guildConfig.hardcoreMode;
+    return this.guildConfig.hardcore;
   }
 
   set allowSpectators(value: boolean) {
-    this.guildConfig.allowSpectators = value;
+    this.guildConfig.spectators = value;
     this.updateDb().then((r) => r);
   }
 
   get allowSpectators() {
-    return this.guildConfig.allowSpectators;
+    return this.guildConfig.spectators;
   }
 
-  //For game themes, we would get to that in a moment
+  get gameTheme() {
+    return this.guildConfig.theme;
+  }
 }

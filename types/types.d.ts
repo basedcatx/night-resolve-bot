@@ -1,5 +1,5 @@
 import { Client, Collection, Interaction, Message } from 'discord.js';
-import { SETTINGS } from '../constants/commands/settings.command.constants';
+import { SETTINGS } from '../constants/constants';
 
 interface GuildChannelConfig {
   [SETTINGS.ADMIN_ROLES]: string[];

@@ -1,14 +1,13 @@
-import { TIMEOUTS } from '../../../../constants/constants';
+import { SETTINGS, SETTINGS_COMMANDS, TIMEOUTS } from '../../../../constants/constants';
 import { Message } from 'discord.js';
 import { ClientWithExtendedTypes } from '../../../../types/types';
 import ArgTokenizer from '../../../../utils/ArgTokenizer';
-import { SETTINGS, SETTINGS_COMMANDS } from '../../../../constants/commands/settings.command.constants';
 import { SettingsManager } from '../../../../structures/settings/SettingsManager';
 
 const command = {
   name: SETTINGS_COMMANDS.SETTINGS_ADD.NAME,
   description: SETTINGS_COMMANDS.SETTINGS_ADD.DESCRIPTION,
-  cooldown: TIMEOUTS.HELP_TIMEOUT,
+  cooldown: TIMEOUTS.DEFAULT_TIMEOUT,
   execute: async function (client: ClientWithExtendedTypes, msg: Message) {
     const msgTokens = ArgTokenizer(msg);
     if (msgTokens.length < 5) {

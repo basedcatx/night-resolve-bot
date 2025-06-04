@@ -1,15 +1,14 @@
 import { Message } from 'discord.js';
-import { TIMEOUTS } from '../../../../constants/constants';
+import { SETTINGS_COMMANDS, TIMEOUTS } from '../../../../constants/constants';
 import { HelpSettingsEmbedClass } from '../../../../components/settings/settings.embed';
 import { SettingsManager } from '../../../../structures/settings/SettingsManager';
 import ArgTokenizer from '../../../../utils/ArgTokenizer';
 import { ClientWithExtendedTypes } from '../../../../types/types';
-import { SETTINGS_COMMANDS } from '../../../../constants/commands/settings.command.constants';
 
 const command = {
   name: SETTINGS_COMMANDS.SETTINGS.NAME,
   description: SETTINGS_COMMANDS.SETTINGS.DESCRIPTION,
-  cooldown: TIMEOUTS.HELP_TIMEOUT,
+  cooldown: TIMEOUTS.DEFAULT_TIMEOUT,
   async execute(client: ClientWithExtendedTypes, msg: Message) {
     const msgTokens = ArgTokenizer(msg);
     const redirectCommandIndex = msgTokens.indexOf(SETTINGS_COMMANDS.SETTINGS.NAME);
