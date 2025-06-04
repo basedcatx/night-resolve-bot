@@ -1,5 +1,5 @@
 import ms from 'ms';
-import { GuildConfig } from '../types/types';
+import { GuildChannelConfig } from '../types/types';
 
 export const TIMEOUTS = {
   HELP_TIMEOUT: ms('10s'),
@@ -12,7 +12,7 @@ export const DURATIONS = {
   },
 };
 
-export const GAME_GUILD_SETTINGS_DEFAULTS: GuildConfig = {
+export const GAME_GUILD_SETTINGS_DEFAULTS: GuildChannelConfig = {
   adminRoles: ['admin'],
   minimumPlayers: 5,
   maximumPlayers: 0,

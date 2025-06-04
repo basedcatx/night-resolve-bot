@@ -1,16 +1,17 @@
 import { Client, Collection, Interaction, Message } from 'discord.js';
+import { SETTINGS } from '../constants/commands/settings.command.constants';
 
-interface GuildConfig {
-  adminRoles: string[];
-  minimumPlayers: number;
-  maximumPlayers: number;
-  dayDuration: number;
-  nightDuration: number;
-  revealRolesOnDeath: boolean;
-  skipVoteAllowed: boolean;
-  hardcoreMode: boolean;
-  allowSpectators: boolean;
-  gameTheme: 'mafia';
+interface GuildChannelConfig {
+  [SETTINGS.ADMIN_ROLES]: string[];
+  [SETTINGS.MIN_PLAYERS]: number;
+  [SETTINGS.MAX_PLAYERS]: number;
+  [SETTINGS.DAY_DURATION]: number;
+  [SETTINGS.NIGHT_DURATION]: number;
+  [SETTINGS.REVEAL_ROLES]: boolean;
+  [SETTINGS.SKIP_VOTE]: boolean;
+  [SETTINGS.HARDCORE_MODE]: boolean;
+  [SETTINGS.ALLOW_SPECTATORS]: boolean;
+  [SETTINGS.GAME_THEME]: 'mafia';
 }
 
 interface MessageCommand {

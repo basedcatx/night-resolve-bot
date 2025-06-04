@@ -2,7 +2,8 @@ import { TIMEOUTS } from '../../../../constants/constants';
 import { Message } from 'discord.js';
 import { ClientWithExtendedTypes } from '../../../../types/types';
 import ArgTokenizer from '../../../../utils/ArgTokenizer';
-import { SETTINGS_COMMANDS } from '../../../../constants/commands/settings.constants';
+import { SETTINGS, SETTINGS_COMMANDS } from '../../../../constants/commands/settings.command.constants';
+import { SettingsManager } from '../../../../structures/settings/SettingsManager';
 
 const command = {
   name: SETTINGS_COMMANDS.SETTINGS_ADD.NAME,
@@ -10,10 +11,19 @@ const command = {
   cooldown: TIMEOUTS.HELP_TIMEOUT,
   execute: async function (client: ClientWithExtendedTypes, msg: Message) {
     const msgTokens = ArgTokenizer(msg);
-    let commandIndexOffset = msgTokens.indexOf(SETTINGS_COMMANDS.SETTINGS_ADD.NAME);
-    const option = msgTokens[commandIndexOffset++];
-    const value = msgTokens[commandIndexOffset];
-    console.log(option, value);
+    if (msgTokens.length < 5) {
+      return console.log('Invalid args provided');
+    }
+    const settingsManager = new SettingsManager(msg.guild!.id);
+    const option = msgTokens[3].trim();
+    const value = msgTokens[4].trim();
+
+    switch (option) {
+      case SETTINGS.ADMIN_ROLES:
+        settingsManager.adminRoles = [...settingsManager.adminRoles, value.toLowerCase()];
+        // send back a response indicating it was done.
+        break;
+    }
   },
 };
 

@@ -2,7 +2,7 @@ import { Message } from 'discord.js';
 import { TIMEOUTS } from '../../../../constants/constants';
 import { HelpEmbedClass } from '../../../../components/help/help.embed';
 import ArgTokenizer from '../../../../utils/ArgTokenizer';
-import { HELP_COMMANDS } from '../../../../constants/commands/help.constants';
+import { HELP_COMMANDS } from '../../../../constants/commands/help.command.constants';
 import { ClientWithExtendedTypes } from '../../../../types/types';
 
 const help = {
@@ -14,7 +14,7 @@ const help = {
     const redirectCommandIndex = msgTokens.indexOf(HELP_COMMANDS.HELP.NAME);
     // To avoid recursion we check if the prefix tokens are more than 2 eg !mafia settings add
     const redirectCommand =
-      redirectCommandIndex < 2 ? null : client.messageCommands.get(msgTokens.splice(1, redirectCommandIndex + 1).join(' '));
+      msgTokens.length < 3 ? null : client.messageCommands.get(msgTokens.splice(1, redirectCommandIndex + 1).join(' '));
 
     if (redirectCommand) {
       return redirectCommand.execute(client, msg);

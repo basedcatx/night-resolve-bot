@@ -27,7 +27,7 @@ export const HELP_SETTINGS_DESCRIPTION = (settingsManager: SettingsManager) => `
 * \`!mafia settings add <value> \` - To append values to some specific settings eg game initiator roles. They are marked with [/]
 
 **General settings**
-* *[/] Game initiator roles:* \`${settingsManager.adminRoles.map((r) => `${r} `)}\` - can control the game lobby (start and stop lobby)
+* *[/] Game initiator roles:* \`${settingsManager.adminRoles.map((r) => `${r} `)}\` - can control the game lobby (start and stop lobby). This roles are not case sensitive
 
 * *Allow game spectators:* \`${settingsManager.allowSpectators}\` - can join private threads as spectators, but can't take part in the game.
 

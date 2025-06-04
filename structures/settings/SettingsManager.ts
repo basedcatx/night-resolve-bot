@@ -1,12 +1,13 @@
 import { db } from '../../database';
-import GuildSettingsSchema from '../../database/schemas/GuildSettingsSchema';
-import { GuildConfig } from '../../types/types';
+import GuildSettingsSchema from '../../database/schemas/GuildChannelSettingsSchema';
+import { GuildChannelConfig } from '../../types/types';
 import { GAME_GUILD_SETTINGS_DEFAULTS } from '../../constants/constants';
 import { eq, InferSelectModel } from 'drizzle-orm';
 import { PostgresError } from 'postgres';
 
 export class SettingsManager {
-  private guildConfig: GuildConfig = GAME_GUILD_SETTINGS_DEFAULTS;
+  // please note that although it is called guild config i decided that every config should be unique per channel, so it's more of a channel config. I would change this in my database. This would help for private lobbies.
+  private guildConfig: GuildChannelConfig = GAME_GUILD_SETTINGS_DEFAULTS;
   private guildId: string;
 
   constructor(guildId: string) {
@@ -15,7 +16,6 @@ export class SettingsManager {
   }
 
   private async loadFromDb() {
-    
     const obj: InferSelectModel<typeof GuildSettingsSchema> | undefined = (
       await db.select().from(GuildSettingsSchema).where(eq(GuildSettingsSchema.id, this.guildId)).limit(1)
     )[0];
