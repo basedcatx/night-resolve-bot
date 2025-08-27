@@ -5,8 +5,7 @@ interface GuildChannelConfig {
   [SETTINGS.ADMIN_ROLES]: string[];
   [SETTINGS.MIN_PLAYERS]: number;
   [SETTINGS.MAX_PLAYERS]: number;
-  [SETTINGS.DAY_DURATION]: number;
-  [SETTINGS.NIGHT_DURATION]: number;
+  [SETTINGS.PHASE_DURATION]: number;
   [SETTINGS.REVEAL_ROLES]: boolean;
   [SETTINGS.SKIP_VOTE]: boolean;
   [SETTINGS.HARDCORE_MODE]: boolean;

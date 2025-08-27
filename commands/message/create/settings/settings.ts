@@ -12,16 +12,19 @@ const command = {
   async execute(client: ClientWithExtendedTypes, msg: Message) {
     const msgTokens = ArgTokenizer(msg);
     const redirectCommandIndex = msgTokens.indexOf(SETTINGS_COMMANDS.SETTINGS.NAME);
+    const settingsCommand = msgTokens.splice(redirectCommandIndex, 2).join(' ').trim(); // we join with an empty space, so that it forms a string
     // To avoid recursion we check if the prefix tokens are more than 2 eg !mafia settings add
-    const redirectCommand =
-      msgTokens.length < 3 ? null : client.messageCommands.get(msgTokens.splice(1, redirectCommandIndex + 1).join(' '));
+    const redirectCommand = msgTokens.length < 3 ? null : client.messageCommands.get(settingsCommand);
+    for (const [name, obj] of client.messageCommands) {
+      console.log(name, obj);
+    }
 
     if (redirectCommand) {
       return redirectCommand.execute(client, msg);
     }
 
-    msg.reply({
-      embeds: [HelpSettingsEmbedClass.embed(client, new SettingsManager(msg.channelId))],
+    return msg.reply({
+      embeds: [await HelpSettingsEmbedClass.embed(client, new SettingsManager(msg.channelId))],
     });
   },
 };

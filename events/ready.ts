@@ -4,7 +4,7 @@ const ready = {
   name: 'ready',
   once: true,
   async execute(client: Client) {
-      console.log('Client is ready', client.user?.displayName);
+    console.log('Client is ready', client.user?.displayName);
   },
 };
 

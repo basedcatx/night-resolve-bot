@@ -20,39 +20,35 @@ const command = {
     // Reminder: We have to add GAME_THEME to our settings manager.
     switch (option) {
       case SETTINGS.ADMIN_ROLES:
-        settingsManager.adminRoles = GAME_GUILD_SETTINGS_DEFAULTS.initiators;
+        settingsManager.setAdminRoles(GAME_GUILD_SETTINGS_DEFAULTS.admin);
         msg.reply({ embeds: [SettingsResetEmbedClass.embedSuccess(option)] });
         break;
       case SETTINGS.ALLOW_SPECTATORS:
-        settingsManager.allowSpectators = GAME_GUILD_SETTINGS_DEFAULTS.spectators;
+        settingsManager.setAllowSpectators(GAME_GUILD_SETTINGS_DEFAULTS.spectators);
         msg.reply({ embeds: [SettingsResetEmbedClass.embedSuccess(option)] });
         break;
       case SETTINGS.REVEAL_ROLES:
-        settingsManager.revealRolesImmediatelyOnDeath = GAME_GUILD_SETTINGS_DEFAULTS.reveal;
+        settingsManager.setRevealRolesImmediatelyOnDeath(GAME_GUILD_SETTINGS_DEFAULTS.reveal);
         msg.reply({ embeds: [SettingsResetEmbedClass.embedSuccess(option)] });
         break;
       case SETTINGS.SKIP_VOTE:
-        settingsManager.skipVoteAllowed = GAME_GUILD_SETTINGS_DEFAULTS.skip;
+        settingsManager.setSkipVoteAllowed(GAME_GUILD_SETTINGS_DEFAULTS.skip);
         msg.reply({ embeds: [SettingsResetEmbedClass.embedSuccess(option)] });
         break;
-      case SETTINGS.DAY_DURATION:
-        settingsManager.dayDuration = GAME_GUILD_SETTINGS_DEFAULTS.day;
-        msg.reply({ embeds: [SettingsResetEmbedClass.embedSuccess(option)] });
-        break;
-      case SETTINGS.NIGHT_DURATION:
-        settingsManager.nightDuration = GAME_GUILD_SETTINGS_DEFAULTS.night;
+      case SETTINGS.PHASE_DURATION:
+        settingsManager.setPhaseChangeDuration(GAME_GUILD_SETTINGS_DEFAULTS.phase_duration);
         msg.reply({ embeds: [SettingsResetEmbedClass.embedSuccess(option)] });
         break;
       case SETTINGS.MAX_PLAYERS:
-        settingsManager.maximumPlayers = GAME_GUILD_SETTINGS_DEFAULTS.max;
+        settingsManager.setMaximumPlayers(GAME_GUILD_SETTINGS_DEFAULTS.max);
         msg.reply({ embeds: [SettingsResetEmbedClass.embedSuccess(option)] });
         break;
       case SETTINGS.MIN_PLAYERS:
-        settingsManager.minimumPlayers = GAME_GUILD_SETTINGS_DEFAULTS.min;
+        settingsManager.setMinimumPlayers(GAME_GUILD_SETTINGS_DEFAULTS.min);
         msg.reply({ embeds: [SettingsResetEmbedClass.embedSuccess(option)] });
         break;
       case SETTINGS.HARDCORE_MODE:
-        settingsManager.hardcoreMode = GAME_GUILD_SETTINGS_DEFAULTS.hardcore;
+        settingsManager.setHardcoreMode(GAME_GUILD_SETTINGS_DEFAULTS.hardcore);
         msg.reply({ embeds: [SettingsResetEmbedClass.embedSuccess(option)] });
         break;
       case SETTINGS.GAME_THEME:

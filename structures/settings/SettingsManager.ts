@@ -7,27 +7,27 @@ import { PostgresError } from 'postgres';
 
 export class SettingsManager {
   // please note that although it is called guild config i decided that every config should be unique per channel, so it's more of a channel config. I would change this in my database. This would help for private lobbies.
-  private guildConfig: GuildChannelConfig = GAME_GUILD_SETTINGS_DEFAULTS;
-  private guildId: string;
+  private channelConfigs: GuildChannelConfig = GAME_GUILD_SETTINGS_DEFAULTS;
+  private channelId: string;
 
-  constructor(guildId: string) {
-    this.guildId = guildId;
+  constructor(channelId: string) {
+    this.channelId = channelId;
     this.loadFromDb().then((r) => r);
   }
 
   private async loadFromDb() {
     const obj: InferSelectModel<typeof GuildSettingsSchema> | undefined = (
-      await db.select().from(GuildSettingsSchema).where(eq(GuildSettingsSchema.id, this.guildId)).limit(1)
+      await db.select().from(GuildSettingsSchema).where(eq(GuildSettingsSchema.id, this.channelId)).limit(1)
     )[0];
 
     if (obj?.config) {
-      this.guildConfig = obj.config;
+      this.channelConfigs = obj.config;
     } else {
-      this.guildConfig = GAME_GUILD_SETTINGS_DEFAULTS;
+      this.channelConfigs = GAME_GUILD_SETTINGS_DEFAULTS;
       try {
         await db.insert(GuildSettingsSchema).values({
-          id: this.guildId,
-          config: this.guildConfig,
+          id: this.channelId,
+          config: this.channelConfigs,
         });
       } catch (err) {
         if (err instanceof PostgresError) {
@@ -38,92 +38,87 @@ export class SettingsManager {
   }
 
   private async updateDb() {
-    await db.update(GuildSettingsSchema).set({ config: this.guildConfig, updatedAt: new Date() });
+    await db
+      .update(GuildSettingsSchema)
+      .set({ config: this.channelConfigs, updatedAt: new Date() })
+      .where(eq(GuildSettingsSchema.id, this.channelId));
   }
 
-  set adminRoles(role: string[]) {
-    this.guildConfig.initiators = [...role];
+  async setAdminRoles(role: string[]) {
+    this.channelConfigs.admin = [...role];
+    await this.updateDb();
+  }
+
+  async getAdminRoles() {
+    return this.channelConfigs.admin;
+  }
+
+  async setMaximumPlayers(max: number) {
+    this.channelConfigs.max = max;
     this.updateDb().then((r) => r);
   }
 
-  get adminRoles() {
-    return this.guildConfig.initiators;
-    this.updateDb().then((r) => r);
+  async getMinimumPlayers() {
+    return this.channelConfigs.min;
   }
 
-  set minimumPlayers(min: number) {
-    this.guildConfig.min = min;
-    this.updateDb().then((r) => r);
+  async setMinimumPlayers(min: number = 5) {
+    this.channelConfigs.min = min;
+    await this.updateDb();
   }
 
-  set maximumPlayers(max: number) {
-    this.guildConfig.max = max;
-    this.updateDb().then((r) => r);
+  async getMaximumPlayers() {
+    return this.channelConfigs.max;
   }
 
-  get minimumPlayers() {
-    return this.guildConfig.min;
+  async setPhaseChangeDuration(durationInSec = 20) {
+    this.channelConfigs.phase_duration = durationInSec;
+    await this.updateDb();
   }
 
-  get maximumPlayers() {
-    return this.guildConfig.max;
+  async getPhaseChangeDuration() {
+    return this.channelConfigs.phase_duration;
   }
 
-  set dayDuration(durationInMs: number) {
-    this.guildConfig.day = durationInMs;
-    this.updateDb().then((r) => r);
+  async setRevealRolesImmediatelyOnDeath(value: boolean = true) {
+    this.channelConfigs.reveal = value;
+    await this.updateDb();
   }
 
-  set nightDuration(durationInMs: number) {
-    this.guildConfig.night = durationInMs;
-    this.updateDb().then((r) => r);
+  async getRevealRolesImmediatelyOnDeath() {
+    return this.channelConfigs.reveal;
   }
 
-  get dayDurationInMs() {
-    return this.guildConfig.day;
+  async setSkipVoteAllowed(value: boolean = false) {
+    this.channelConfigs.skip = value;
+    await this.updateDb();
   }
 
-  get nightDurationInMs() {
-    return this.guildConfig.night;
+  async getSkipVoteAllowed() {
+    return this.channelConfigs.skip;
   }
 
-  set revealRolesImmediatelyOnDeath(value: boolean) {
-    this.guildConfig.reveal = value;
-    this.updateDb().then((r) => r);
+  async setHardcoreMode(value: boolean = false) {
+    this.channelConfigs.hardcore = value;
+    await this.updateDb();
   }
 
-  get revealRolesImmediatelyOnDeath() {
-    return this.guildConfig.reveal;
+  async getHardcoreMode() {
+    return this.channelConfigs.hardcore;
   }
 
-  set skipVoteAllowed(value: boolean) {
-    this.guildConfig.skip = value;
-    this.updateDb().then((r) => r);
+  async setAllowSpectators(value: boolean = true) {
+    this.channelConfigs.spectators = value;
+    await this.updateDb();
   }
 
-  get skipVoteAllowed() {
-    return this.guildConfig.skip;
+  async getAllowSpectators() {
+    return this.channelConfigs.spectators;
   }
 
-  set hardcoreMode(value: boolean) {
-    this.guildConfig.hardcore = value;
-    this.updateDb().then((r) => r);
+  async getGameTheme() {
+    return this.channelConfigs.theme;
   }
 
-  get hardcoreMode() {
-    return this.guildConfig.hardcore;
-  }
-
-  set allowSpectators(value: boolean) {
-    this.guildConfig.spectators = value;
-    this.updateDb().then((r) => r);
-  }
-
-  get allowSpectators() {
-    return this.guildConfig.spectators;
-  }
-
-  get gameTheme() {
-    return this.guildConfig.theme;
-  }
+  // TODO: Add more game themes, but that's in future, if the project is really loved.
 }

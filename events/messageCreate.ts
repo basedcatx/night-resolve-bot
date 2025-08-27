@@ -16,6 +16,8 @@ const messageCreate = {
     const commandName = msgTokens[1];
     if (!commandName) return;
 
+    console.log(commandName);
+
     // Try to execute the command if it exists
     const command = client.messageCommands.get(commandName);
     if (!command) {

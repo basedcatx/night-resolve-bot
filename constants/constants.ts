@@ -12,12 +12,11 @@ export const SETTINGS_COMMANDS = {
 } as const;
 
 export const SETTINGS = {
-  ADMIN_ROLES: 'initiators',
+  ADMIN_ROLES: 'admin',
   MIN_PLAYERS: 'min',
   MAX_PLAYERS: 'max',
-  DAY_DURATION: 'day',
-  NIGHT_DURATION: 'night',
   REVEAL_ROLES: 'reveal',
+  PHASE_DURATION: 'phase_duration',
   SKIP_VOTE: 'skip',
   HARDCORE_MODE: 'hardcore',
   ALLOW_SPECTATORS: 'spectators',
@@ -36,11 +35,10 @@ export const DURATIONS = {
 };
 
 export const GAME_GUILD_SETTINGS_DEFAULTS: GuildChannelConfig = {
-  initiators: ['admin'],
+  admin: ['admin'],
   min: 5,
   max: 0,
-  day: DURATIONS.GAME.DAY,
-  night: DURATIONS.GAME.NIGHT,
+  phase_duration: 20,
   reveal: true,
   skip: false,
   hardcore: false,
