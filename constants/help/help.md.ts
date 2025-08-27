@@ -40,5 +40,5 @@ export const HELP_SETTINGS_DESCRIPTION = async (settingsManager: SettingsManager
 
 * *Set skip voting allowed:* \`${await settingsManager.getSkipVoteAllowed()}\` - Allows skipping votes, if town members are not certain.
 
-* *Set skip voting allowed:* \`${await settingsManager.getRevealRolesImmediatelyOnDeath()}\` - When someone is killed, their roles are immediately revealed.
+* *Set reveal roles on death allowed:* \`${await settingsManager.getRevealRolesImmediatelyOnDeath()}\` - When someone is killed, their roles are immediately revealed.
 `;

@@ -14,7 +14,7 @@ const command = {
     if (msgTokens.length < 4) {
       return console.log('Invalid args provided');
     }
-    const settingsManager = new SettingsManager(msg.guild!.id);
+    const settingsManager = new SettingsManager(msg.channelId);
     const option = msgTokens[3].trim();
 
     // Reminder: We have to add GAME_THEME to our settings manager.
@@ -36,7 +36,7 @@ const command = {
         msg.reply({ embeds: [SettingsResetEmbedClass.embedSuccess(option)] });
         break;
       case SETTINGS.PHASE_DURATION:
-        settingsManager.setPhaseChangeDuration(GAME_GUILD_SETTINGS_DEFAULTS.phase_duration);
+        settingsManager.setPhaseChangeDuration(GAME_GUILD_SETTINGS_DEFAULTS.duration);
         msg.reply({ embeds: [SettingsResetEmbedClass.embedSuccess(option)] });
         break;
       case SETTINGS.MAX_PLAYERS:

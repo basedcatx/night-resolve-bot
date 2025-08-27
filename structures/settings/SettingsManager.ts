@@ -72,12 +72,12 @@ export class SettingsManager {
   }
 
   async setPhaseChangeDuration(durationInSec = 20) {
-    this.channelConfigs.phase_duration = durationInSec;
+    this.channelConfigs.duration = durationInSec;
     await this.updateDb();
   }
 
   async getPhaseChangeDuration() {
-    return this.channelConfigs.phase_duration;
+    return this.channelConfigs.duration;
   }
 
   async setRevealRolesImmediatelyOnDeath(value: boolean = true) {
