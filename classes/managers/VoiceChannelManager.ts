@@ -1,4 +1,4 @@
-import { VoiceChannel } from "discord.js";
+import { ChannelType, VoiceChannel } from "discord.js";
 import { ChannelManagerContract } from "./contracts/ChannelManagerContract";
 
 export class VoiceChannelManager implements ChannelManagerContract {
@@ -14,6 +14,10 @@ export class VoiceChannelManager implements ChannelManagerContract {
 
     public get id(): string {
         return this.channel.id;
+    }
+
+    public get type(): ChannelType {
+        return this.channel.type
     }
 
     public async postSystemMessage(content: string): Promise<void> {

@@ -22,6 +22,7 @@ interface Event {
   once: boolean;
   execute(client: ClientWithExtendedTypes, interaction: Message | Interaction): Promise<void>;
 }
+
 interface ClientWithExtendedTypes extends Client {
   messageCommands: Collection<string, MessageCommand>;
   events: Collection<string, Event>;

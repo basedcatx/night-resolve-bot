@@ -51,3 +51,5 @@ export const HELP_COMMANDS = {
     DESCRIPTION: 'Generic command to display all general help options.',
   },
 };
+
+export type HELPCOMMANDTYPE = typeof HELP_COMMANDS;

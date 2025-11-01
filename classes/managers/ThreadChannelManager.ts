@@ -1,4 +1,4 @@
-import { ThreadChannel } from "discord.js";
+import { ChannelType, ThreadChannel } from "discord.js";
 import { ChannelManagerContract } from "./contracts/ChannelManagerContract";
 
 /*
@@ -13,12 +13,16 @@ export class ThreadChannelManager implements ChannelManagerContract {
         this.channel = channel;
     }
 
-    get name(): string {
+    public get name(): string {
         return this.channel.name;
     }
 
-    get id(): string {
+    public get id(): string {
         return this.channel.id;
+    }
+
+    public get type(): ChannelType {
+        return this.channel.type
     }
 
     async postSystemMessage(content: string): Promise<void> {
