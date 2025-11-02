@@ -15,9 +15,6 @@ jobs:
 
     steps:
       #1 Checkout the repo
-      - name: "Go to bot source"
-        run: cd ./src
-
       - name: "Checkout"
         uses: actions/checkout@v4
 
@@ -30,8 +27,10 @@ jobs:
           version: 10.20.0
 
       - name: "Install dependencies"
+        working-directory: ./src
         run: pnpm install
 
       - name: "Run tests"
+        working-directory: ./src
         run: echo "Running tests..."
-          bun test ./src
+          bun test
