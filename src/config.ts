@@ -19,6 +19,7 @@ const botConfigs = {
     },
     supportGuild: {
       guildId: process.env.SUPPORT_GUILD_ID!,
+      channelId: process.env.SUPPORT_DEVELOPMENT_CHANNEL_ID!,
     },
   },
 };
