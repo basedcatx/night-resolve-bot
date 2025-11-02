@@ -15,6 +15,9 @@ jobs:
 
     steps:
       #1 Checkout the repo
+      - name: "Go to bot source"
+        run: cd ./src
+
       - name: "Checkout"
         uses: actions/checkout@v4
 
