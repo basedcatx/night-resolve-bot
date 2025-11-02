@@ -12,12 +12,11 @@ export const SETTINGS_COMMANDS = {
 } as const;
 
 export const SETTINGS = {
-  ADMIN_ROLES: 'initiators',
+  ADMIN_ROLES: 'admin',
   MIN_PLAYERS: 'min',
   MAX_PLAYERS: 'max',
-  DAY_DURATION: 'day',
-  NIGHT_DURATION: 'night',
   REVEAL_ROLES: 'reveal',
+  PHASE_DURATION: 'duration',
   SKIP_VOTE: 'skip',
   HARDCORE_MODE: 'hardcore',
   ALLOW_SPECTATORS: 'spectators',
@@ -30,17 +29,15 @@ export const TIMEOUTS = {
 
 export const DURATIONS = {
   GAME: {
-    DAY: ms('1min'),
-    NIGHT: ms('2min'),
+    PHASE_DURATION: 60,
   },
 };
 
-export const GAME_GUILD_SETTINGS_DEFAULTS: GuildChannelConfig = {
-  initiators: ['admin'],
+export const GAME_GUILD_CHANNEL_SETTINGS_DEFAULTS: GuildChannelConfig = {
+  admin: ['admin'],
   min: 5,
   max: 0,
-  day: DURATIONS.GAME.DAY,
-  night: DURATIONS.GAME.NIGHT,
+  duration: 20,
   reveal: true,
   skip: false,
   hardcore: false,
@@ -54,3 +51,5 @@ export const HELP_COMMANDS = {
     DESCRIPTION: 'Generic command to display all general help options.',
   },
 };
+
+export type HELPCOMMANDTYPE = typeof HELP_COMMANDS;

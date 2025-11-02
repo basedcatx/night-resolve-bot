@@ -4,3 +4,6 @@
 !.env.project
 !.env.vault
 node_modules
+database/*
+database
+database/drizzle/*

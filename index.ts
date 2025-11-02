@@ -1,4 +1,4 @@
-import { Client, Collection, GatewayIntentBits } from 'discord.js';
+import { Client, REST, Collection, CommandInteraction, GatewayIntentBits, SlashCommandBuilder, Routes } from 'discord.js';
 import botConfigs from './config';
 import path from 'node:path';
 import { readdirSync } from 'fs';
@@ -14,6 +14,19 @@ const client = new Client({
     GatewayIntentBits.GuildMembers,
   ],
 });
+
+// Dummy slash command, to keep my active developer badge
+
+const dummy_commands = {
+  data: new SlashCommandBuilder()
+    .setName('dummy_command')
+    .setDescription('This command is just to make sure i can retain my active developer role'),
+  async execute(interaction: CommandInteraction) {
+    await interaction.reply('Hello world, nice to see you.');
+  },
+};
+
+const commands = [{ ...dummy_commands.data.toJSON() }];
 
 const PREFIX = '!mafia';
 
@@ -85,9 +98,18 @@ loadAllEvents(client).catch(console.error);
 loadAllCommands(path.join(__dirname, 'commands'))
   .then((r) => r)
   .catch(console.error);
-
+const rest = new REST().setToken(botConfigs.env.bot.token);
+rest
+  .put(Routes.applicationGuildCommands(botConfigs.env.bot.clientId, botConfigs.env.supportGuild.guildId), {
+    body: commands,
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 client.login(botConfigs.env.bot.token).catch((err) => {
   console.error('Error occurred while signing in', err);
   console.log('Retrying in 30 seconds...');
   setTimeout(() => client.login(botConfigs.env.bot.token), ms('30s'));
 });
+
+export const botClient = client;

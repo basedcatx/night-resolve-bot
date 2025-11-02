@@ -1,8 +1,10 @@
 import { SETTINGS, SETTINGS_COMMANDS, TIMEOUTS } from '../../../../constants/constants';
-import { Message } from 'discord.js';
+import { Message, Role } from 'discord.js';
 import { ClientWithExtendedTypes } from '../../../../types/types';
-import ArgTokenizer from '../../../../utils/ArgTokenizer';
-import { SettingsManager } from '../../../../structures/settings/SettingsManager';
+import { SettingsManager } from '../../../../classes/SettingsManager';
+import GetAllMentionedUsers from '../../../../utils/command_parsers/GetAllMentionedRoles';
+import ArgTokenizer from '../../../../utils/command_parsers/ArgTokenizer';
+import GetAllMentionedRoles from '../../../../utils/command_parsers/GetAllMentionedRoles';
 
 const command = {
   name: SETTINGS_COMMANDS.SETTINGS_ADD.NAME,
@@ -13,15 +15,32 @@ const command = {
     if (msgTokens.length < 5) {
       return console.log('Invalid args provided');
     }
-    const settingsManager = new SettingsManager(msg.guild!.id);
+
+    const mentionedUserIds = GetAllMentionedUsers(msgTokens);
+    const mentionedRoles = GetAllMentionedRoles(msgTokens);
+    console.log(mentionedUserIds);
+    console.log(mentionedRoles);
+    const settingsManager = new SettingsManager(msg.channelId);
     const option = msgTokens[3].trim();
-    const value = msgTokens[4].trim();
 
     switch (option) {
-      case SETTINGS.ADMIN_ROLES:
-        settingsManager.adminRoles = [...settingsManager.adminRoles, value.toLowerCase()];
+      case SETTINGS.ADMIN_ROLES: {
+        const validRoles = [];
+        for (const role of mentionedRoles) {
+          if (msg.guild?.roles.cache.find((r: Role) => r.id === role)) {
+            validRoles.push(role);
+          }
+        }
+
+        if (validRoles.length < 1) {
+          return await msg.reply('Invalid roles specified');
+        }
+
+        settingsManager.setAdminRoles([...(await settingsManager.getAdminRoles()), ...validRoles]);
+        await msg.reply('Sucessfully added as admins');
         // send back a response indicating it was done.
         break;
+      }
     }
   },
 };

@@ -1,5 +1,5 @@
 import { Events, Message } from 'discord.js';
-import ArgTokenizer from '../utils/ArgTokenizer';
+import ArgTokenizer from '../utils/command_parsers/ArgTokenizer';
 import { ClientWithExtendedTypes } from '../types/types';
 
 const messageCreate = {
@@ -15,6 +15,8 @@ const messageCreate = {
     // Get the command name (second token after prefix)
     const commandName = msgTokens[1];
     if (!commandName) return;
+
+    console.log(commandName);
 
     // Try to execute the command if it exists
     const command = client.messageCommands.get(commandName);
