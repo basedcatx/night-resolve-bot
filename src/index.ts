@@ -28,7 +28,7 @@ const dummy_commands = {
 
 const commands = [{ ...dummy_commands.data.toJSON() }];
 
-const PREFIX = '!mafia';
+const PREFIX = ['!mafia']; // We can create some sort of hashmap to store every alternate prefix for guilds.
 
 // We decide typescript's to initialize our client with it's states
 (client as ClientWithExtendedTypes).messageCommands = new Collection();
@@ -111,4 +111,3 @@ client.login(botConfigs.env.bot.token).catch((err) => {
   console.log('Retrying in 30 seconds...');
   setTimeout(() => client.login(botConfigs.env.bot.token), ms('30s'));
 });
-

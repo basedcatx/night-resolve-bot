@@ -27,3 +27,5 @@ interface ClientWithExtendedTypes extends Client {
   messageCommands: Collection<string, MessageCommand>;
   events: Collection<string, Event>;
 }
+
+export type GAME_ROLES_TYPE = 'doctor' | 'town member' | 'criminal';

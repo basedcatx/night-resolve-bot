@@ -1,6 +1,6 @@
 import { Events, Message } from 'discord.js';
-import ArgTokenizer from '../utils/ArgTokenizer';
 import { ClientWithExtendedTypes } from '../types/types';
+import { message_command_tokenizer } from '../utils/command_parser';
 
 const messageCreate = {
   name: Events.MessageCreate,
@@ -8,7 +8,7 @@ const messageCreate = {
   execute: async function (client: ClientWithExtendedTypes, prefix: string[], msg: Message) {
     if (msg.author.bot) return;
 
-    const msgTokens = ArgTokenizer(msg);
+    const msgTokens = message_command_tokenizer(msg.content);
     if (!msgTokens[0] || !prefix.includes(msgTokens[0])) return;
 
     // Get the command name (second token after prefix)

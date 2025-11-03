@@ -1,12 +1,12 @@
 import { ChannelType, ThreadChannel } from 'discord.js';
-import { ChannelManagerContract } from './contracts/ChannelManagerContract';
+import { IChannelManager } from './interfaces';
 
 /*
  * Implementation of the channel wrapper for ThreadBasedChannels.
  * TODO: I have to add an auto archieve timeout to this. Would check that out later on.
  */
 
-export class ThreadChannelManager implements ChannelManagerContract {
+export class ThreadChannelManager implements IChannelManager {
   private readonly channel: ThreadChannel;
 
   constructor(channel: ThreadChannel) {

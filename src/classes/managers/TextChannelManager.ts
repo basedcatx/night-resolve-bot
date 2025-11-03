@@ -1,7 +1,7 @@
 import { ChannelType, TextChannel } from 'discord.js';
-import { ChannelManagerContract } from './contracts/ChannelManagerContract';
+import { IChannelManager } from './interfaces';
 
-export class TextChannelManager implements ChannelManagerContract {
+export class TextChannelManager implements IChannelManager {
   private readonly channel: TextChannel;
 
   constructor(channel: TextChannel) {

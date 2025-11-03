@@ -1,7 +1,7 @@
 import { ChannelType, VoiceChannel } from 'discord.js';
-import { ChannelManagerContract } from './contracts/ChannelManagerContract';
+import { IChannelManager } from './interfaces';
 
-export class VoiceChannelManager implements ChannelManagerContract {
+export class VoiceChannelManager implements IChannelManager {
   private readonly channel: VoiceChannel;
 
   constructor(channel: VoiceChannel) {
