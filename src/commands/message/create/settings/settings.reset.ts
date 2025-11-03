@@ -6,7 +6,7 @@ import {
 } from '../../../../constants/constants';
 import { Message } from 'discord.js';
 import { ClientWithExtendedTypes } from '../../../../types/types';
-import ArgTokenizer from '../../../../utils/command_parsers/ArgTokenizer';
+import ArgTokenizer from '../../../../utils/ArgTokenizer';
 import { SettingsManager } from '../../../../classes/SettingsManager';
 import { SettingsResetEmbedClass } from '../../../../components/embeds/settings/settings.reset.embed';
 

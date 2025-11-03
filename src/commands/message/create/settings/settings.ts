@@ -1,6 +1,6 @@
 import { Message } from 'discord.js';
 import { SETTINGS_COMMANDS, TIMEOUTS } from '../../../../constants/constants';
-import ArgTokenizer from '../../../../utils/command_parsers/ArgTokenizer';
+import ArgTokenizer from '../../../../utils/ArgTokenizer';
 import { ClientWithExtendedTypes } from '../../../../types/types';
 import { CHelpEmbed } from '../../../../components/embeds/help/HelpEmbed';
 

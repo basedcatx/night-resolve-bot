@@ -112,4 +112,3 @@ client.login(botConfigs.env.bot.token).catch((err) => {
   setTimeout(() => client.login(botConfigs.env.bot.token), ms('30s'));
 });
 
-export const botClient = client;
