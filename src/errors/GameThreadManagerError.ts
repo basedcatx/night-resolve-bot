@@ -1,10 +1,15 @@
 import { error_types } from '../types/types';
 
-type error_codes = 'LOBBY_EXPIRED_ERROR' | 'LOBBY_MAX_ACTIVE_THREADS_ERROR' | 'LOBBY_INVALID_CHANNEL_ERROR';
+type error_codes =
+  | 'GAME_MAX_PLAYER_ERROR'
+  | 'GAME_PLAYER_ALREADY_IN_QUEUE'
+  | 'GAME_PLAYER_NOT_IN_QUEUE'
+  | 'GAME_ONGOING'
+  | 'GAME_CANNOT_CREATE_THREAD_ERROR';
 
-export class LobbyManagerError extends Error {
-  private readonly c: error_codes;
+export class GameThreadManagerError extends Error {
   private readonly m: string;
+  private readonly c: error_codes;
   private readonly ct: { type: error_types; obj?: object };
 
   constructor(msg: string, cause: error_codes, ctx: { type: error_types; obj?: object }) {

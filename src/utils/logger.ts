@@ -16,6 +16,6 @@ export const log = {
     logger.info(context, chalk.green(msg));
   },
   error: (error: unknown, context?: object) => {
-    logger.error(context, chalk.red(error));
+    logger.error(context, chalk.red(JSON.stringify(error)));
   },
 };

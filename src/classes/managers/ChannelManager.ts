@@ -1,4 +1,4 @@
-import { ChannelType, Client, GuildChannel, PermissionsBitField } from 'discord.js';
+import { ChannelType, Client, GuildChannel, PermissionsBitField, TextChannel, ThreadAutoArchiveDuration } from 'discord.js';
 import { IChannelManager } from './interfaces';
 
 export class ChannelManager implements IChannelManager {
@@ -20,6 +20,10 @@ export class ChannelManager implements IChannelManager {
     return this.channel.type;
   }
 
+  public getGuildChannel() {
+    return this.channel;
+  }
+
   public async postSystemMessage(content: string): Promise<void> {
     const formattedContent = `[SYSTEM ALERT] - ${content}`;
     if (this.channel.isSendable()) await this.channel.send({ content: formattedContent });
@@ -31,7 +35,7 @@ export class ChannelManager implements IChannelManager {
 
   public hasThreadPermission(bot: Client): boolean {
     const botMember = this.channel.members.get(bot.user?.id ?? '');
-    if (botMember == undefined) return false;
+    if (botMember == undefined) throw new Error('Bot is not part of this server');
     return this.channel
       .permissionsFor(botMember)
       .has([
@@ -42,7 +46,21 @@ export class ChannelManager implements IChannelManager {
       ]);
   }
 
-  public channelSupportThreads() {
-    return !(this.channel.type === ChannelType.GuildText);
+  public async createThread(id: string, type: ChannelType.PrivateThread | ChannelType.PublicThread) {
+    if (!this.supportThreads()) return undefined;
+
+    const thread = await (this.channel as TextChannel).threads.create({
+      name: `Game - ${id}`,
+      type,
+      reason: 'The space for every contender to meet their doom!',
+      autoArchiveDuration: ThreadAutoArchiveDuration.OneDay,
+    });
+
+    await thread.join();
+    return thread;
+  }
+
+  public supportThreads() {
+    return this.channel.isTextBased();
   }
 }

@@ -8,7 +8,7 @@ export class GameManager {
     this.id = guildId;
   }
 
-  createGameManager(guildId: string, client: ClientWithExtendedTypes): GameManager {
+  getGameManager(guildId: string, client: ClientWithExtendedTypes): GameManager {
     const existing = client.gameManagers.get(guildId);
     if (existing) return existing;
     const manager = new GameManager(guildId);

@@ -10,18 +10,23 @@ const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent,
     GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMessageReactions,
   ],
 });
 
-const PREFIX = ['!mafia']; // We can create some sort of hashmap to store every alternate prefix for guilds.
 const interactionCommands: object[] = [];
+const PREFIX = ['!mafia'];
 // We decide typescript's to initialize our client with it's states
 (client as ClientWithExtendedTypes).messageCommands = new Collection();
 (client as ClientWithExtendedTypes).interactionCommands = new Collection();
+(client as ClientWithExtendedTypes).playerManagers = new Collection();
+(client as ClientWithExtendedTypes).lobbyManagers = new Collection();
+(client as ClientWithExtendedTypes).gameManagers = new Collection();
+(client as ClientWithExtendedTypes).gameThreads = new Collection();
 
-// we need to read through all the events and the once which are once, init them, once which are on, init them.
+// This function would be used to load all our commands recursively.
+
 async function loadAllEvents(client: Client) {
   const eventDirectory = readdirSync(pathToFileURL(path.join(__dirname, 'events')));
   for (const event of eventDirectory) {
@@ -41,8 +46,6 @@ async function loadAllEvents(client: Client) {
   }
 }
 
-
-// This function would be used to load all our commands recursively.
 async function loadAllCommands(cmdDir: string, type: 'message' | 'interaction' | 'any') {
   const commandDirectory = readdirSync(pathToFileURL(cmdDir), { withFileTypes: true });
 

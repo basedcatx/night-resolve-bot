@@ -10,9 +10,9 @@ export function get_mentioned_users(messageTokens: string[]) {
 }
 
 export function get_mentioned_roles(messageTokens: string[]) {
-  const mentioned = []
+  const mentioned = [];
   for (const token in messageTokens) {
-    if (token.startsWith("<@&") && token.endsWith(">")) mentioned.push(token)
+    if (token.startsWith('<@&') && token.endsWith('>')) mentioned.push(token);
   }
-  return mentioned
+  return mentioned;
 }

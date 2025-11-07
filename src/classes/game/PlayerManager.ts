@@ -1,5 +1,5 @@
 import { PLAYER_IN_GAME_STATE, PLAYER_STATE_TYPE } from '../../types/states';
-import { ClientWithExtendedTypes } from '../../types/types';
+import { ClientWithExtendedTypes, Result } from '../../types/types';
 import { PlayerManagerError } from '../../errors/PlayerManagerError';
 import { PLAYER_ROLES, PLAYER_ROLES_TYPE } from '../../types/globals';
 
@@ -11,7 +11,7 @@ export class PlayerManager {
 
   private constructor(userId: string) {
     this.userId = userId;
-    this.player_role = 'townie';
+    this.player_role = 'none';
   }
 
   public setPlayerRole(role: PLAYER_ROLES_TYPE) {
@@ -19,6 +19,10 @@ export class PlayerManager {
   }
 
   public get id() {
+    return `<@${this.userId}>`;
+  }
+
+  public toString(): string {
     return this.userId;
   }
 
@@ -26,7 +30,7 @@ export class PlayerManager {
     this.in_game_states = 0;
   }
 
-  public createPlayerManager(id: string, client: ClientWithExtendedTypes) {
+  public static createPlayerManager(id: string, client: ClientWithExtendedTypes) {
     const existing = client.playerManagers.get(id);
     if (existing) return existing;
 
@@ -35,8 +39,8 @@ export class PlayerManager {
     return playerManager;
   }
 
-  public removePlayerFromMem(client: ClientWithExtendedTypes) {
-    const player = client.playerManagers.get(this.userId);
+  public static removePlayerFromMem(id: string, client: ClientWithExtendedTypes) {
+    const player = client.playerManagers.get(id);
     if (!player) return;
     client.playerManagers.delete(player.id);
   }
@@ -49,29 +53,45 @@ export class PlayerManager {
     return PLAYER_ROLES[this.player_role].can_ressurect;
   }
 
-  public async killPlayerInCurrGame() {
+  public async killPlayerInCurrGame(): Promise<Result<void>> {
     if (this.player_state === 'spectating') {
-      throw new PlayerManagerError('Player is currently spectating his last game', 'player_state_spectating_error', {
-        id: this.userId,
-        state: this.player_state,
-        in_game_state: this.in_game_states,
-      });
+      return {
+        ok: false,
+        error: new PlayerManagerError('Player is currently spectating his last game', 'player_state_spectating_error', {
+          id: this.userId,
+          state: this.player_state,
+          type: 'user',
+          in_game_state: this.in_game_states,
+        }),
+      };
     }
 
     if (!(this.player_state == 'in_game')) {
-      throw new PlayerManagerError('Player is not currently in any game', 'player_not_in_game_error', {
-        state: this.player_state,
-        in_game_state: this.in_game_states,
-        id: this.userId,
-      });
+      return {
+        ok: false,
+        error: new PlayerManagerError('Player is not currently in any game', 'player_not_in_game_error', {
+          state: this.player_state,
+          in_game_state: this.in_game_states,
+          id: this.userId,
+          type: 'user',
+        }),
+      };
     }
 
     if (this.in_game_states & ~PLAYER_IN_GAME_STATE.is_alive) {
-      throw new PlayerManagerError('Player is already dead, and is spectating the current game', 'player_state_dead_error', {
-        state: this.player_state,
-        in_game_state: this.in_game_states,
-        id: this.userId,
-      });
+      return {
+        ok: false,
+        error: new PlayerManagerError(
+          'Player is already dead, and is spectating the current game',
+          'player_state_dead_error',
+          {
+            state: this.player_state,
+            in_game_state: this.in_game_states,
+            id: this.userId,
+            type: 'user',
+          },
+        ),
+      };
     }
 
     /*
@@ -80,5 +100,10 @@ export class PlayerManager {
 
     this.player_state = 'spectating';
     this.in_game_states |= ~PLAYER_IN_GAME_STATE.is_alive | PLAYER_IN_GAME_STATE.is_muted;
+    return { ok: true };
   }
+
+  /*
+   * I would have had a method to reset the player's state after his/her ends, but for now i think it is pretty useless. It would just be a waste of memory.
+   */
 }

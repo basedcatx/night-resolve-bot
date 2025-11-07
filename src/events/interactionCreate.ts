@@ -5,10 +5,6 @@ const commandInteraction = {
   name: Events.InteractionCreate,
   once: false,
   async execute(client: ClientWithExtendedTypes, PREFIX: string, interaction: CommandInteraction) {
-    if (interaction.commandName === 'dummy_command') {
-      return await interaction.reply('Thank you!');
-    }
-
     const command = client.interactionCommands.get(interaction.commandName);
     if (command) {
       await command.execute(client, interaction);
